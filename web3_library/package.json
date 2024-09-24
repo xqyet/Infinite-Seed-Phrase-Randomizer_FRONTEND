@@ -1,0 +1,22 @@
+{
+  "name": "web3_library",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "eslint": "^9.11.1"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.95.3",
+    "bitcoinjs-lib": "^7.0.0-rc.0",
+    "ethers": "^6.13.2",
+    "local-ssl-proxy": "^2.0.5",
+    "web3": "^4.13.0"
+  }
+}
