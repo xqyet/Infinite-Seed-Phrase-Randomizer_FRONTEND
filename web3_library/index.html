@@ -17,12 +17,111 @@
     <!-- BitcoinJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bitcoinjs-lib/6.0.0/bitcoinjs-lib.min.js"></script>
 
+    <!-- Add some styling -->
+    <style>
+        body {
+            background-color: #141313;
+            color: #bb72b5; /* Default text color */
+            font-family: Arial, sans-serif;
+        }
+
+        h1, h3 {
+            color: #FFFFFF; /* Header and Disclaimer color */
+            text-align: center; /* Center align the header and disclaimer */
+        }
+
+        button {
+            background-color: #ff0057;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+            button:hover {
+                background-color: #d9004e; /* Slightly darker on hover */
+            }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .invalid-mnemonic {
+            color: #bb72b5; /* "Invalid mnemonic" color */
+        }
+
+        .checked {
+            color: #bb72b5; /* "Checked" color */
+        }
+
+        .seed-phrase {
+            color: #ff0057; /* Seed phrase color */
+        }
+
+        .match-found {
+            color: #f1ce0e; /* "Match found! Seed phrase:" color */
+        }
+
+        .no-valid-found {
+            color: red; /* Default red color for "No valid seed-phrase found" */
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-style: italic;
+            font-size: 20px;
+        }
+
+        h4 {
+            color: red; /* Default red color */
+            font-style: italic;
+        }
+
+        .icon {
+            width: 98px; /* Increase width */
+            height: 98px; /* Increase height */
+            display: block;
+            margin: 20px auto 0; /* Center the icon right below the disclaimer */
+        }
+
+        .left-container {
+            text-align: left;
+            margin-left: 20px; /* Move the container to the left */
+        }
+
+        .right-container {
+            position: absolute;
+            top: 200px;
+            right: 20px;
+            color: #FFFFFF; /* Text color for right-side information */
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
-    <h1>Check Wallet with Seed Phrase - MetaMask Brute Force</h1>
-    <button id="checkWallet">Check Wallet</button>
+    <h1>Infinite Seed-Phrase Randomizer Using MetaMask API</h1>
+    <h3>Disclaimer: Please note that the seed phrases marked as "Checked with a balance of 0 ETH/BTC" are a result of false positives. While the system checks for a balance, certain scenarios (e.g., dust accounts or unconfirmed transactions) may incorrectly suggest an empty wallet. Always use caution when handling sensitive information such as seed phrases and private keys.</h3>
+
+    <!-- Centered GIF Icon below the disclaimer -->
+    <img src="icon.gif" alt="Loading icon" class="icon">
+
+    <div class="left-container">
+        <!-- Message for no valid seed phrase found -->
+        <h4 class="no-valid-found">[ No valid seed-phrase found ]</h4>
+
+        <button id="checkWallet">Check Wallet</button>
+    </div>
 
     <p id="output"></p> <!-- Display result or seed phrase -->
+    <!-- Right-hand container for additional text -->
+    <div class="right-container">
+        <p>Discord: xqyet</p>
+        <p>GitHub: xqyet</p>
+        <p>Website: xqyet.dev</p>
+        <p>*for thoughts and questions</p>
+    </div>
 
     <script src="main.js"></script>
 </body>
