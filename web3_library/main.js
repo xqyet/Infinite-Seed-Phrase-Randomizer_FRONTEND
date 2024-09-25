@@ -8,6 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
+    const MAX_DISPLAYED_PHRASES = 50; // Maximum number of phrases to display at a time
+
+    function addSeedPhraseToDOM(seedPhraseText, cssClass) {
+        let phraseElement = document.createElement("p");
+        phraseElement.classList.add(cssClass);
+        phraseElement.textContent = seedPhraseText;
+
+        outputElement.appendChild(phraseElement);
+
+        // Remove old elements to maintain the rolling window of 500 phrases
+        if (outputElement.childNodes.length > MAX_DISPLAYED_PHRASES) {
+            outputElement.removeChild(outputElement.firstChild);
+        }
+    }
+
     document.getElementById("checkWallet").addEventListener("click", async () => {
         try {
             if (typeof window.ethereum === 'undefined') {
@@ -33,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const web3 = new Web3(window.ethereum);
-            const chunkSize = 400; // Number of seed phrases to fetch at a time
+            const chunkSize = 1600; // Number of seed phrases to fetch at a time
             let isFinished = false; // Controls when to stop the loop
 
             outputElement.innerHTML = "";  // Clear the output
@@ -49,16 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Process each seed phrase
                 for (const seedPhrase of seedPhrases) {
-                    let phraseElement = document.createElement("p");
-                    phraseElement.classList.add("seed-phrase");
-                    phraseElement.textContent = `Checking seed phrase: ${seedPhrase}`;
-                    outputElement.appendChild(phraseElement);
+                    addSeedPhraseToDOM(`Checking seed phrase: ${seedPhrase}`, "seed-phrase");
 
                     try {
                         // Strict mnemonic validation using ethers.js
                         if (!ethers.utils.isValidMnemonic(seedPhrase)) {
-                            phraseElement.textContent = `Invalid mnemonic: ${seedPhrase}, skipping...`;
-                            phraseElement.classList.add("invalid-mnemonic");
+                            addSeedPhraseToDOM(`Invalid mnemonic: ${seedPhrase}, skipping...`, "invalid-mnemonic");
                             continue;
                         }
 
@@ -68,8 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         // Checking ETH and Binance Smart Chain balance with web3.js
                         const ethBalance = await web3.eth.getBalance(derivedAddress);
                         if (parseInt(ethBalance) > 0) {
-                            phraseElement.textContent = `Match found! Seed phrase: ${seedPhrase} (ETH/BSC balance: ${web3.utils.fromWei(ethBalance, 'ether')} ETH)`;
-                            phraseElement.classList.add("match-found");
+                            addSeedPhraseToDOM(`Match found! Seed phrase: ${seedPhrase} (ETH/BSC balance: ${web3.utils.fromWei(ethBalance, 'ether')} ETH)`, "match-found");
 
                             // Update the "[ No valid seed-phrase found ]" message to green and change text
                             noValidElement.textContent = "[ Seed-phrase found ]";
@@ -80,15 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             isFinished = true; // Stop the loop when a match is found
                             break;
                         } else {
-                            phraseElement.textContent = `Checked: ${seedPhrase} (No ETH/BSC balance)`;
-                            phraseElement.classList.add("checked");
+                            addSeedPhraseToDOM(`Checked: ${seedPhrase} (No ETH/BSC balance)`, "checked");
                         }
 
-                        // Add any other chain checks like Solana or Bitcoin here if necessary
-
                     } catch (mnemonicError) {
-                        phraseElement.textContent = `Error processing mnemonic: ${seedPhrase}, skipping...`;
-                        phraseElement.classList.add("invalid-mnemonic");
+                        addSeedPhraseToDOM(`Error processing mnemonic: ${seedPhrase}, skipping...`, "invalid-mnemonic");
                     }
                 }
 
